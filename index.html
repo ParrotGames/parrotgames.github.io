@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ParrotGames | Full-Stack Developer & Automation Engineer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #03060b;
+      --card-bg: #0d1117;
+      --card-border: #30363d;
+      --accent: #58a6ff;
+      --accent-glow: rgba(88,166,255,.35);
+      --accent-glow-strong: rgba(88,166,255,.5);
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --success: #2ea043;
+      --gradient-1: linear-gradient(135deg, #58a6ff, #8957e5);
+      --gradient-2: linear-gradient(135deg, #8957e5, #d75893);
+    }
+
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(ellipse at 50% -20%, #0d1522, var(--bg) 70%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated background particles */
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* ===== GRID ===== */
+    .container {
+      max-width: 1300px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(180px, auto);
+      gap: 28px;
+      padding: 40px 20px;
+      perspective: 1200px;
+    }
+
+    /* ===== CARDS ===== */
+    .card {
+      background: linear-gradient(180deg, rgba(13,17,23,0.95), rgba(8,12,18,0.95));
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 38px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      transform-style: preserve-3d;
+      transform: translateZ(0);
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                  box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+                  border-color 0.8s ease;
+      opacity: 0;
+      animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes cardAppear {
+      to {
+        opacity: 1;
+        transform: translateZ(0) scale(1);
+      }
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), 
+                  rgba(88,166,255,0.12), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent, rgba(88,166,255,0.05) 50%, transparent);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 40px 120px -30px var(--accent-glow),
+                  inset 0 0 0 1px rgba(88,166,255,0.1);
+      transform: translateZ(20px) scale(1.02);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    /* Card content positioning */
+    .card-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== LAYOUT ===== */
+    .hero { 
+      grid-column: span 8; 
+      grid-row: span 2; 
+      animation-delay: 0.1s;
+    }
+    
+    .skills { 
+      grid-column: span 4; 
+      grid-row: span 2; 
+      animation-delay: 0.2s;
+    }
+    
+    .automation { 
+      grid-column: span 6; 
+      animation-delay: 0.3s;
+    }
+    
+    .projects { 
+      grid-column: span 6; 
+      animation-delay: 0.4s;
+    }
+    
+    .cta { 
+      grid-column: span 12; 
+      text-align: center;
+      animation-delay: 0.5s;
+    }
+
+    /* ===== TEXT ===== */
+    h1 {
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      font-weight: 900;
+      letter-spacing: -2.5px;
+      line-height: 1.05;
+      margin: 12px 0 20px;
+      background: var(--gradient-1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      display: inline-block;
+    }
+
+    h1::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 120px;
+      height: 4px;
+      background: var(--gradient-1);
+      border-radius: 2px;
+    }
+
+    h2 {
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      color: var(--accent);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    p { 
+      color: var(--text-dim); 
+      font-size: 1.1rem; 
+      line-height: 1.6;
+      max-width: 95%;
+      margin-bottom: 10px;
+    }
+
+    .highlight {
+      background: linear-gradient(90deg, transparent, rgba(88,166,255,0.1), transparent);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ===== STATUS ===== */
+    .status-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--success);
+      position: relative;
+      box-shadow: 0 0 12px var(--success);
+    }
+
+    .status-dot::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite ease-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(2); opacity: 0.5; }
+      100% { transform: scale(3); opacity: 0; }
+    }
+
+    .status-text {
+      font-size: 0.9rem;
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text);
+    }
+
+    /* ===== BADGES ===== */
+    .badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .badge {
+      background: rgba(88,166,255,0.12);
+      color: var(--accent);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: 1px solid rgba(88,166,255,0.25);
+      transition: all 0.3s ease;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .badge::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .badge:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px -10px rgba(88,166,255,0.4);
+      border-color: rgba(88,166,255,0.5);
+    }
+
+    .badge:hover::before {
+      left: 100%;
+    }
+
+    /* ===== LIST ===== */
+    .skill-list {
+      list-style: none;
+      margin-top: 24px;
+    }
+
+    .skill-list li {
+      margin-bottom: 16px;
+      display: flex;
+      gap: 16px;
+      font-size: 0.95rem;
+      align-items: center;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 12px;
+      border-left: 3px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .skill-list li:hover {
+      background: rgba(88,166,255,0.05);
+      border-left-color: var(--accent);
+      transform: translateX(5px);
+    }
+
+    .skill-list i {
+      color: var(--accent);
+      width: 20px;
+      font-size: 1.1rem;
+    }
+
+    /* ===== PROJECTS ===== */
+    .project-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .project-item {
+      padding: 20px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .project-item:hover {
+      background: rgba(88,166,255,0.05);
+      border-color: rgba(88,166,255,0.3);
+      transform: translateY(-5px);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .project-title {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 1.1rem;
+    }
+
+    .project-stars {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+
+    .project-stars i {
+      color: #e3b341;
+    }
+
+    .project-desc {
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* ===== CTA ===== */
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 42px;
+      margin-top: 20px;
+    }
+
+    .social-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .social-link i {
+      font-size: 2.2rem;
+      transition: all 0.4s ease;
+    }
+
+    .social-link span {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      font-weight: 500;
+    }
+
+    .social-link:hover i {
+      color: var(--accent);
+      transform: translateY(-8px) scale(1.2);
+      filter: drop-shadow(0 10px 20px rgba(88,166,255,0.4));
+    }
+
+    .social-link:hover span {
+      opacity: 1;
+      color: var(--accent);
+    }
+
+    .social-link::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: var(--gradient-1);
+      transition: width 0.4s ease;
+    }
+
+    .social-link:hover::after {
+      width: 80%;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1100px) {
+      .container {
+        grid-template-columns: repeat(6, 1fr);
+      }
+      
+      .hero, .cta {
+        grid-column: span 6;
+      }
+      
+      .skills, .automation, .projects {
+        grid-column: span 3;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      
+      .hero, .skills, .automation, .projects, .cta {
+        grid-column: span 1;
+      }
+      
+      .social-links {
+        gap: 30px;
+      }
+    }
+
+    /* ===== FLOATING ELEMENTS ===== */
+    .floating-element {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(1px);
+      box-shadow: 0 0 10px var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Animated background particles -->
+<canvas id="particles"></canvas>
+
+<!-- Floating elements -->
+<div class="floating-elements"></div>
+
+<div class="container">
+
+  <section class="card hero">
+    <div class="card-content">
+      <div class="status-container">
+        <span class="status-dot"></span>
+        <span class="status-text">ACTIVE_BUILDING • OPEN_TO_COLLAB</span>
+      </div>
+      <h1>ParrotGames</h1>
+      <p>
+        Full-stack developer specializing in <span class="highlight">high-performance web applications</span>, 
+        <span class="highlight">Discord bot ecosystems</span>, and <span class="highlight">Python automation systems</span>.
+        I build scalable, maintainable solutions with modern JavaScript, Python, and cloud-native architectures.
+      </p>
+      <div class="badge-container">
+        <span class="badge">TypeScript</span>
+        <span class="badge">Node.js</span>
+        <span class="badge">Python 3</span>
+        <span class="badge">React/Next.js</span>
+        <span class="badge">Discord API</span>
+        <span class="badge">Selenium/Playwright</span>
+        <span class="badge">PostgreSQL</span>
+        <span class="badge">Cloud Functions</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card skills">
+    <div class="card-content">
+      <h2><i class="fa-solid fa-layer-group"></i> Tech Stack</h2>
+      <ul class="skill-list">
+        <li><i class="fa-brands fa-js"></i> <strong>JavaScript/TypeScript</strong> - Full-stack applications</li>
+        <li><i class="fa-brands fa-python"></i> <strong>Python 3</strong> - Automation & backend services</li>
+        <li><i class="fa-solid fa-server"></i> <strong>Node.js + Express</strong> - API development</li>
+        <li><i class="fa-brands fa-react"></i> <strong>React & Next.js</strong> - Modern frontends</li>
+        <li><i class="fa-solid fa-database"></i> <strong>PostgreSQL + Redis</strong> - Data layer</li>
+        <li><i class="fa-solid fa-cloud"></i> <strong>Cloud Deployment</strong> - Vercel, Railway, AWS</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card automation">
+    <div class="card-content">
+      <h2><i class="fa-solid fa-gear"></i> Current Focus</h2>
+      <p>
+        Building intelligent automation systems and Discord bot platforms with:
+      </p>
+      <ul class="skill-list" style="margin-top: 15px;">
+        <li><i class="fa-solid fa-robot"></i> <strong>Discord Bot Suites</strong> - Modular, scalable bot ecosystems</li>
+        <li><i class="fa-solid fa-bolt"></i> <strong>Automation Pipelines</strong> - Web scraping & workflow automation</li>
+        <li><i class="fa-solid fa-chart-line"></i> <strong>Performance Monitoring</strong> - Real-time analytics dashboards</li>
+        <li><i class="fa-solid fa-shield-alt"></i> <strong>Security-First Design</strong> - Secure API integrations</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card projects">
+    <div class="card-content">
+      <h2><i class="fa-solid fa-code-branch"></i> Recent Projects</h2>
+      <div class="project-list" id="project-list">
+        <div class="project-item" onclick="window.open('https://github.com/parrotgames', '_blank')">
+          <div class="project-header">
+            <div class="project-title">Loading projects...</div>
+            <div class="project-stars"><i class="fas fa-star"></i> <span>--</span></div>
+          </div>
+          <div class="project-desc">Fetching latest repositories from GitHub...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="card cta">
+    <div class="card-content">
+      <h2 style="justify-content:center"><i class="fa-solid fa-network-wired"></i> Connect & Collaborate</h2>
+      <div class="social-links">
+        <a href="https://github.com/parrotgames" target="_blank" class="social-link">
+          <i class="fab fa-github"></i>
+          <span>GitHub</span>
+        </a>
+        <a href="https://discord.com/users/" target="_blank" class="social-link">
+          <i class="fab fa-discord"></i>
+          <span>Discord</span>
+        </a>
+        <a href="mailto:contact@parrotgames.is-a.dev" class="social-link">
+          <i class="fa-solid fa-envelope"></i>
+          <span>Email</span>
+        </a>
+        <a href="https://is-a.dev" target="_blank" class="social-link">
+          <i class="fa-solid fa-code"></i>
+          <span>is-a.dev</span>
+        </a>
+      </div>
+      <p style="margin-top: 30px; font-size: 0.9rem; opacity: 0.7;">
+        Press <kbd>Ctrl</kbd> + <kbd>K</kbd> to open command palette
+      </p>
+    </div>
+  </footer>
+
+</div>
+
+<!-- Enhanced Command Palette -->
+<div id="palette">
+  <div class="palette-box">
+    <div class="palette-header">
+      <i class="fa-solid fa-terminal"></i>
+      <span>Command Palette</span>
+      <span class="palette-hint">Press ESC to close</span>
+    </div>
+    <input type="text" placeholder="Type a command (projects, contact, stack, whoami, theme...)"/>
+    <ul id="palette-results"></ul>
+  </div>
+</div>
+
+<style>
+  #palette {
+    position: fixed;
+    inset: 0;
+    background: rgba(3,6,11,0.85);
+    backdrop-filter: blur(12px);
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 9999;
+    padding-top: 100px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  #palette.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  .palette-box {
+    background: rgba(13,17,23,0.95);
+    border: 1px solid #30363d;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 700px;
+    box-shadow: 0 50px 150px -30px rgba(0,0,0,0.9),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+    overflow: hidden;
+    transform: translateY(-30px);
+    transition: transform 0.3s ease;
+  }
+
+  #palette.active .palette-box {
+    transform: translateY(0);
+  }
+
+  .palette-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px;
+    border-bottom: 1px solid #30363d;
+    background: rgba(0,0,0,0.2);
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .palette-header i {
+    color: var(--accent);
+  }
+
+  .palette-hint {
+    margin-left: auto;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    font-weight: normal;
+  }
+
+  .palette-box input {
+    width: 100%;
+    padding: 22px 24px;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 1.1rem;
+    outline: none;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .palette-box input::placeholder {
+    color: var(--text-dim);
+  }
+
+  #palette-results {
+    list-style: none;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  #palette-results li {
+    padding: 16px 24px;
+    color: var(--text-dim);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    transition: all 0.2s ease;
+  }
+
+  #palette-results li:last-child {
+    border-bottom: none;
+  }
+
+  #palette-results li:hover {
+    background: rgba(88,166,255,0.08);
+    color: var(--accent);
+    padding-left: 28px;
+  }
+
+  #palette-results li i {
+    width: 20px;
+    color: var(--accent);
+  }
+
+  .command-desc {
+    margin-left: auto;
+    font-size: 0.85rem;
+    opacity: 0.6;
+  }
+
+  /* Scrollbar for palette */
+  #palette-results::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #palette-results::-webkit-scrollbar-track {
+    background: rgba(255,255,255,0.03);
+  }
+
+  #palette-results::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+  }
+</style>
+
+<script>
+  // Particle system for background
+  class ParticleSystem {
+    constructor() {
+      this.canvas = document.getElementById('particles');
+      this.ctx = this.canvas.getContext('2d');
+      this.particles = [];
+      this.particleCount = window.innerWidth < 768 ? 30 : 60;
+      
+      this.init();
+      this.animate();
+      window.addEventListener('resize', () => this.resize());
+    }
+    
+    init() {
+      this.resize();
+      this.createParticles();
+    }
+    
+    resize() {
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight;
+    }
+    
+    createParticles() {
+      this.particles = [];
+      for (let i = 0; i < this.particleCount; i++) {
+        this.particles.push({
+          x: Math.random() * this.canvas.width,
+          y: Math.random() * this.canvas.height,
+          size: Math.random() * 2 + 0.5,
+          speedX: (Math.random() - 0.5) * 0.5,
+          speedY: (Math.random() - 0.5) * 0.5,
+          color: Math.random() > 0.5 ? 'rgba(88,166,255,0.5)' : 'rgba(137,87,229,0.3)'
+        });
+      }
+    }
+    
+    animate() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      
+      // Update and draw particles
+      for (let particle of this.particles) {
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+        
+        // Bounce off edges
+        if (particle.x < 0 || particle.x > this.canvas.width) particle.speedX *= -1;
+        if (particle.y < 0 || particle.y > this.canvas.height) particle.speedY *= -1;
+        
+        // Draw particle
+        this.ctx.beginPath();
+        this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        this.ctx.fillStyle = particle.color;
+        this.ctx.fill();
+        
+        // Draw connections
+        for (let other of this.particles) {
+          const dx = particle.x - other.x;
+          const dy = particle.y - other.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < 120) {
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = `rgba(88,166,255,${0.1 * (1 - distance/120)})`;
+            this.ctx.lineWidth = 0.5;
+            this.ctx.moveTo(particle.x, particle.y);
+            this.ctx.lineTo(other.x, other.y);
+            this.ctx.stroke();
+          }
+        }
+      }
+      
+      requestAnimationFrame(() => this.animate());
+    }
+  }
+
+  // Card reveal animation
+  const cards = document.querySelectorAll('.card');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  cards.forEach(card => io.observe(card));
+
+  // Mouse glow effect
+  cards.forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      card.style.setProperty('--x', `${x}px`);
+      card.style.setProperty('--y', `${y}px`);
+    });
+    
+    // Reset position when mouse leaves
+    card.addEventListener('mouseleave', () => {
+      card.style.setProperty('--x', '50%');
+      card.style.setProperty('--y', '50%');
+    });
+  });
+
+  // Load GitHub projects
+  async function loadGithubProjects() {
+    try {
+      const projectList = document.getElementById('project-list');
+      projectList.innerHTML = `
+        <div class="project-item">
+          <div class="project-header">
+            <div class="project-title">Loading projects...</div>
+            <div class="project-stars"><i class="fas fa-spinner fa-spin"></i> <span>--</span></div>
+          </div>
+          <div class="project-desc">Fetching latest repositories from GitHub...</div>
+        </div>
+      `;
+      
+      const res = await fetch('https://api.github.com/users/parrotgames/repos?sort=updated&per_page=3');
+      const data = await res.json();
+      
+      projectList.innerHTML = '';
+      
+      if (data.length === 0) {
+        projectList.innerHTML = `
+          <div class="project-item">
+            <div class="project-header">
+              <div class="project-title">No public repos</div>
+              <div class="project-stars"><i class="fas fa-code"></i> <span>0</span></div>
+            </div>
+            <div class="project-desc">Check back later for projects!</div>
+          </div>
+        `;
+        return;
+      }
+      
+      data.forEach(repo => {
+        const projectItem = document.createElement('div');
+        projectItem.className = 'project-item';
+        projectItem.onclick = () => window.open(repo.html_url, '_blank');
+        
+        projectItem.innerHTML = `
+          <div class="project-header">
+            <div class="project-title">${repo.name}</div>
+            <div class="project-stars"><i class="fas fa-star"></i> <span>${repo.stargazers_count}</span></div>
+          </div>
+          <div class="project-desc">${repo.description || 'No description provided'}</div>
+        `;
+        
+        projectList.appendChild(projectItem);
+      });
+    } catch (error) {
+      console.error('Failed to load GitHub projects:', error);
+      document.getElementById('project-list').innerHTML = `
+        <div class="project-item" onclick="window.open('https://github.com/parrotgames', '_blank')">
+          <div class="project-header">
+            <div class="project-title">GitHub Profile</div>
+            <div class="project-stars"><i class="fas fa-external-link-alt"></i></div>
+          </div>
+          <div class="project-desc">Click to visit my GitHub profile</div>
+        </div>
+      `;
+    }
+  }
+
+  // Enhanced Command Palette
+  const palette = document.getElementById('palette');
+  const paletteInput = palette.querySelector('input');
+  const paletteResults = document.getElementById('palette-results');
+  
+  const commands = {
+    projects: {
+      execute: () => {
+        loadGithubProjects();
+        palette.classList.remove('active');
+        setTimeout(() => {
+          document.querySelector('.projects').scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      },
+      description: 'Load and display GitHub projects',
+      icon: 'fa-code-branch'
+    },
+    contact: {
+      execute: () => {
+        window.location.href = 'mailto:contact@parrotgames.is-a.dev';
+        palette.classList.remove('active');
+      },
+      description: 'Send me an email',
+      icon: 'fa-envelope'
+    },
+    stack: {
+      execute: () => {
+        palette.classList.remove('active');
+        alert('JavaScript/TypeScript • Python • Node.js • React • PostgreSQL • Discord API • Selenium/Playwright • Cloud Deployment');
+      },
+      description: 'View my tech stack',
+      icon: 'fa-layer-group'
+    },
+    whoami: {
+      execute: () => {
+        palette.classList.remove('active');
+        alert('parrotgames — Full-stack developer, automation engineer, and Discord bot specialist. Building the future one line of code at a time.');
+      },
+      description: 'About me',
+      icon: 'fa-user'
+    },
+    github: {
+      execute: () => {
+        window.open('https://github.com/parrotgames', '_blank');
+        palette.classList.remove('active');
+      },
+      description: 'Open GitHub profile',
+      icon: 'fa-github'
+    },
+    theme: {
+      execute: () => {
+        palette.classList.remove('active');
+        alert('Theme toggle coming soon!');
+      },
+      description: 'Toggle light/dark mode',
+      icon: 'fa-palette'
+    },
+    clear: {
+      execute: () => {
+        paletteInput.value = '';
+        renderPalette('');
+      },
+      description: 'Clear command',
+      icon: 'fa-eraser'
+    }
+  };
+  
+  // Open/close palette
+  window.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      openPalette();
+    }
+    
+    if (e.key === 'Escape' && palette.classList.contains('active')) {
+      closePalette();
+    }
+  });
+  
+  paletteInput.addEventListener('input', () => renderPalette(paletteInput.value));
+  
+  function openPalette() {
+    palette.classList.add('active');
+    paletteInput.focus();
+    renderPalette('');
+  }
+  
+  function closePalette() {
+    palette.classList.remove('active');
+    paletteInput.value = '';
+  }
+  
+  function renderPalette(query) {
+    paletteResults.innerHTML = '';
+    
+    const filteredCommands = Object.entries(commands)
+      .filter(([cmd, _]) => cmd.includes(query.toLowerCase()))
+      .slice(0, 8); // Limit results
+    
+    if (filteredCommands.length === 0) {
+      const li = document.createElement('li');
+      li.innerHTML = `<i class="fas fa-search"></i> No commands found for "${query}"`;
+      paletteResults.appendChild(li);
+      return;
+    }
+    
+    filteredCommands.forEach(([cmd, data]) => {
+      const li = document.createElement('li');
+      li.onclick = () => {
+        data.execute();
+      };
+      
+      li.innerHTML = `
+        <i class="fas ${data.icon}"></i>
+        <span>${cmd}</span>
+        <span class="command-desc">${data.description}</span>
+      `;
+      
+      paletteResults.appendChild(li);
+    });
+  }
+
+  // Initialize everything when page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    // Start particle system
+    new ParticleSystem();
+    
+    // Load GitHub projects
+    loadGithubProjects();
+    
+    // Add keyboard shortcut hint
+    console.log('%c🚀 ParrotGames Portfolio Loaded', 'color: #58a6ff; font-size: 16px; font-weight: bold;');
+    console.log('%cPress Ctrl+K to open command palette', 'color: #8b949e;');
+  });
+
+  // Add floating elements animation
+  function createFloatingElements() {
+    const container = document.querySelector('.floating-elements');
+    if (!container) return;
+    
+    const elementCount = 15;
+    
+    for (let i = 0; i < elementCount; i++) {
+      const element = document.createElement('div');
+      element.className = 'floating-element';
+      
+      // Random position
+      element.style.left = `${Math.random() * 100}vw`;
+      element.style.top = `${Math.random() * 100}vh`;
+      
+      // Random size and animation
+      const size = Math.random() * 3 + 1;
+      element.style.width = `${size}px`;
+      element.style.height = `${size}px`;
+      
+      // Random animation
+      element.style.animation = `float ${Math.random() * 20 + 10}s infinite ease-in-out ${Math.random() * 5}s`;
+      
+      container.appendChild(element);
+    }
+    
+    // Add CSS animation for floating
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes float {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px) scale(1.2); }
+        50% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px) scale(0.8); }
+        75% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px) scale(1.1); }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // Initialize floating elements
+  createFloatingElements();
+</script>
+
+</body>
+</html>
